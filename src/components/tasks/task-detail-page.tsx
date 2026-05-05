@@ -167,7 +167,8 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const images = getImageUrls(post, content);
   const mapEmbedUrl = buildMapEmbedUrl(content.latitude, content.longitude, location);
   const isBookmark = task === "sbm" || task === "social";
-  const hideSidebar = isClassified || isArticle || task === "image" || isBookmark;
+  const isPdf = task === "pdf";
+  const hideSidebar = isClassified || isArticle || task === "image" || isBookmark || isPdf;
   const related = (await fetchTaskPosts(task, 6))
     .filter((item) => item.slug !== post.slug)
     .filter((item) => {
@@ -248,9 +249,19 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen ${isPdf ? 'pdf-detail-container pdf-page-wrapper w-screen' : 'bg-background'}`}>
+      {isPdf && (
+        <>
+          <div className="pdf-magic-background" />
+          <div className="pdf-floating-elements">
+            <div className="pdf-floating-shape" />
+            <div className="pdf-floating-shape" />
+            <div className="pdf-floating-shape" />
+          </div>
+        </>
+      )}
       <NavbarShell />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className={`${isPdf ? 'w-full pdf-detail-content' : 'w-screen py-10 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl'}`}>
         <SchemaJsonLd data={schemaPayload} />
         <Link
           href={taskConfig?.route || "/"}
@@ -308,7 +319,88 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
               </div>
             ) : null}
 
-            {!isArticle ? (
+            {isPdf ? (
+              <div className="mx-auto max-w-3xl px-6 py-8">
+                {/* Clean centered header */}
+                <div className="mb-8 text-center">
+                  <h1 className="mb-4 text-4xl font-bold text-gray-900 sm:text-5xl">
+                    {post.title}
+                  </h1>
+                  <div className="flex items-center justify-center text-sm text-gray-600">
+                    <span className="font-medium">British Proofreading</span>
+                    <span className="mx-2">•</span>
+                    <span>Last updated {articleDate || '3/27/25 at 3:23 pm'}</span>
+                  </div>
+                </div>
+
+                {/* Featured Image */}
+                {images[0] && (
+                  <div className="mb-8 overflow-hidden rounded-lg shadow-lg">
+                    <ContentImage
+                      src={images[0]}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      intrinsicWidth={1200}
+                      intrinsicHeight={900}
+                    />
+                  </div>
+                )}
+
+                {/* Main Content */}
+                <div className="mb-8">
+                  <RichContent html={articleHtml} className="prose prose-lg max-w-none leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
+                </div>
+
+                {/* Document Details Card */}
+                <div className="mb-8">
+                  <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                    <h2 className="mb-4 text-xl font-semibold text-gray-900">Document Details</h2>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">File Size:</span>
+                        <span className="text-sm font-medium text-gray-900">2.4 MB</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">Pages:</span>
+                        <span className="text-sm font-medium text-gray-900">12</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">Format:</span>
+                        <span className="text-sm font-medium text-gray-900">PDF</span>
+                      </div>
+                    </div>
+                    <div className="mt-6">
+                      <button className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white font-medium transition-colors hover:bg-blue-700">
+                        Download PDF
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tags */}
+                {postTags.length ? (
+                  <div className="mt-8 pdf-content-reveal" style={{animationDelay: '1.2s'}}>
+                    <p className="text-sm font-medium text-muted-foreground">Tags</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {postTags.map((tag, index) => (
+                        <Badge 
+                          key={tag} 
+                          variant="outline"
+                          className="pdf-content-reveal hover:scale-110 transition-transform"
+                          style={{animationDelay: `${1.3 + index * 0.1}s`}}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
+            {!isArticle && !isPdf ? (
               <>
                 {!isBookmark ? (
                   <div className={cn(isClassified ? "w-full" : "")}>
@@ -408,8 +500,8 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
 
           {!hideSidebar ? (
             <aside className="space-y-6">
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                   {content.website && (
                     <div className="flex items-start gap-2">
