@@ -37,4 +37,13 @@ export const BRAND_PACKS: Record<BrandPack['key'], BrandPack> = {
     surfaceClassName: 'factory-surface-market',
     accentClassName: 'factory-accent-market',
   },
+  'aurora-mystic': {
+    key: 'aurora-mystic',
+    displayName: 'Aurora Mystic',
+    bodyClassName: 'factory-brand-aurora-mystic',
+    fontClassName: 'factory-font-aurora-mystic',
+    paletteClassName: 'factory-palette-aurora-mystic',
+    surfaceClassName: 'factory-surface-aurora-mystic',
+    accentClassName: 'factory-accent-aurora-mystic',
+  },
 }

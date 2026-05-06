@@ -37,6 +37,7 @@ const variantShells = {
   'classified-market': 'bg-[linear-gradient(180deg,#f4f6ef_0%,#ffffff_100%)]',
   'sbm-curation': 'bg-[linear-gradient(180deg,#fff7ee_0%,#ffffff_100%)]',
   'sbm-library': 'bg-[linear-gradient(180deg,#f7f8fc_0%,#ffffff_100%)]',
+  'pdf-library': 'bg-[radial-gradient(ellipse_at_top_right,rgba(239,68,68,0.15),transparent_40%),radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.12),transparent_35%),linear-gradient(135deg,#fef7f7_0%,#f0f9ff_50%,#fef7f7_100%)]',
 } as const
 
 export async function TaskListPage({ task, category }: { task: TaskKey; category?: string }) {
@@ -69,6 +70,14 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         input: 'border-white/10 bg-white/6 text-white',
         button: 'bg-white text-slate-950 hover:bg-slate-200',
       }
+    : layoutKey === 'pdf-library'
+      ? {
+          muted: 'text-[#64748b]',
+          panel: 'border border-[#e2e8f0] bg-white/80 backdrop-blur-sm shadow-[0_8px_32px_rgba(239,68,68,0.08)]',
+          soft: 'border border-[#f1f5f9] bg-[#f8fafc] shadow-[0_4px_16px_rgba(59,130,246,0.06)]',
+          input: 'border border-[#e2e8f0] bg-white text-[#1e293b] focus:border-[#3b82f6]',
+          button: 'bg-gradient-to-r from-[#ef4444] to-[#3b82f6] text-white hover:from-[#dc2626] hover:to-[#2563eb] shadow-[0_4px_12px_rgba(239,68,68,0.3)]',
+        }
     : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
       ? {
           muted: 'text-[#72594a]',
@@ -86,9 +95,16 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         }
 
   return (
-    <div className={`min-h-screen ${shellClass}`}>
+    <div className={`min-h-screen ${shellClass} ${layoutKey === 'pdf-library' ? 'relative' : ''} ${layoutKey === 'pdf-library' ? 'w-screen' : ''}`}>
+      {layoutKey === 'pdf-library' && (
+        <div className="pdf-library-background">
+          {[...Array(10)].map((_, i) => (
+            <div key={i} className="pdf-document-icon" />
+          ))}
+        </div>
+      )}
       <NavbarShell />
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className={`${layoutKey === 'pdf-library' ? 'w-full relative z-10' : 'w-screen py-12 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl'}`}>
         {task === 'listing' ? (
           <SchemaJsonLd
             data={[
@@ -233,6 +249,61 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                 </select>
                 <button type="submit" className={`h-11 rounded-xl px-4 text-sm font-medium ${ui.button}`}>Apply</button>
               </form>
+            </div>
+          </section>
+        ) : null}
+
+        {layoutKey === 'pdf-library' ? (
+          <section className="mb-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+            <div>
+              <div className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] ${ui.soft}`}>
+                <Icon className="h-4 w-4" />
+                Document Library
+              </div>
+              <h1 className="mt-6 text-5xl font-semibold tracking-[-0.05em] bg-gradient-to-r from-[#ef4444] via-[#3b82f6] to-[#ef4444] bg-clip-text text-transparent bg-size-200%">PDF Resources & Downloads</h1>
+              <p className={`mt-6 max-w-3xl text-lg leading-8 ${ui.muted}`}>A comprehensive library of PDF documents, guides, and resources. Browse through our curated collection with advanced filtering and preview capabilities.</p>
+              
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {[
+                  { count: '100+', label: 'PDF Documents', desc: 'Comprehensive collection' },
+                  { count: '15+', label: 'Categories', desc: 'Organized by topic' },
+                  { count: '24/7', label: 'Access', desc: 'Available anytime' },
+                ].map((stat) => (
+                  <div key={stat.label} className={`rounded-xl p-4 ${ui.soft}`}>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-[#ef4444] to-[#3b82f6] bg-clip-text text-transparent">{stat.count}</p>
+                    <p className="text-sm font-semibold mt-1">{stat.label}</p>
+                    <p className={`text-xs mt-1 ${ui.muted}`}>{stat.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Quick Filters</p>
+              <form className="mt-4 space-y-4" action={taskConfig?.route || '#'}>
+                <div>
+                  <label className={`text-xs font-medium ${ui.muted}`}>Category</label>
+                  <select name="category" defaultValue={normalizedCategory} className={`mt-2 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}>
+                    <option value="all">All categories</option>
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <option key={item.slug} value={item.slug}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <button type="submit" className={`h-11 w-full rounded-xl text-sm font-medium ${ui.button}`}>Browse Library</button>
+              </form>
+              
+              <div className="mt-6 pt-6 border-t border-[#e2e8f0]">
+                <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Popular Downloads</p>
+                <div className="mt-3 space-y-2">
+                  {['User Guide', 'Documentation', 'Templates'].map((item) => (
+                    <div key={item} className={`flex items-center justify-between rounded-lg p-3 ${ui.soft}`}>
+                      <span className="text-sm font-medium">{item}</span>
+                      <span className={`text-xs ${ui.muted}`}>PDF</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         ) : null}
