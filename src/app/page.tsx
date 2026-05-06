@@ -39,6 +39,10 @@ const taskIcons: Record<TaskKey, any> = {
   classified: Tag,
   image: ImageIcon,
   profile: User,
+  social: Globe2,
+  pdf: FileText,
+  org: Building2,
+  comment: FileText,
 }
 
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
@@ -73,6 +77,19 @@ function getPostMeta(post?: SitePost | null) {
 }
 
 function getDirectoryTone(brandPack: string) {
+  if (brandPack === 'aurora-mystic') {
+    return {
+      shell: 'factory-brand-aurora-mystic factory-font-aurora-mystic',
+      hero: 'relative overflow-hidden',
+      panel: 'aurora-glass-panel',
+      soft: 'aurora-glass-card',
+      muted: 'aurora-text-secondary',
+      title: 'aurora-text-primary',
+      badge: 'aurora-accent text-white px-4 py-2 rounded-full text-xs font-semibold',
+      action: 'aurora-button px-6 py-3 rounded-full inline-flex items-center gap-2',
+      actionAlt: 'aurora-glass-card px-6 py-3 rounded-full inline-flex items-center gap-2 aurora-text-primary hover:aurora-glass-panel',
+    }
+  }
   if (brandPack === 'market-utility') {
     return {
       shell: 'bg-[#f5f7f1] text-[#1f2617]',
@@ -152,9 +169,17 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   const quickRoutes = enabledTasks.slice(0, 4)
 
   return (
-    <main>
-      <section className={tone.hero}>
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
+    <main className={tone.shell}>
+      {brandPack === 'aurora-mystic' && (
+        <div className="aurora-particles">
+          {[...Array(9)].map((_, i) => (
+            <div key={i} className="aurora-particle" />
+          ))}
+        </div>
+      )}
+      <section className={`${tone.hero} ${brandPack === 'aurora-mystic' ? 'aurora-glow' : ''} relative z-10`}>
+        {brandPack === 'aurora-mystic' && <div className="aurora-hero-gradient" />}
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-18 relative z-20">
           <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
             <div>
               <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] ${tone.badge}`}>
@@ -247,14 +272,14 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
           <div className="grid gap-4 md:grid-cols-2">
             {(profilePosts.length ? profilePosts : classifiedPosts).slice(0, 4).map((post) => {
               const meta = getPostMeta(post)
-              const taskKey = resolveTaskKey(post.task, profilePosts.length ? 'profile' : 'classified')
+              const taskKey = profilePosts.length ? 'profile' : 'classified'
               return (
                 <Link key={post.id} href={getTaskHref(taskKey, post.slug)} className={`overflow-hidden rounded-[1.8rem] ${tone.panel}`}>
                   <div className="relative h-44 overflow-hidden">
                     <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
                   </div>
                   <div className="p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || post.task || 'Profile'}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || taskKey || 'Profile'}</p>
                     <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
                     <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Quick access to local information and related surfaces.'}</p>
                   </div>
@@ -375,7 +400,7 @@ function VisualHome({ primaryTask, imagePosts, profilePosts, articlePosts }: { p
             {gallery.slice(0, 5).map((post, index) => (
               <Link
                 key={post.id}
-                href={getTaskHref(resolveTaskKey(post.task, 'image'), post.slug)}
+                href={getTaskHref('image', post.slug)}
                 className={index === 0 ? `col-span-2 row-span-2 overflow-hidden rounded-[2.4rem] ${tone.panel}` : `overflow-hidden rounded-[1.8rem] ${tone.soft}`}
               >
                 <div className={index === 0 ? 'relative h-[360px]' : 'relative h-[170px]'}>
@@ -440,7 +465,7 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
 
           <div className="grid gap-4 md:grid-cols-2">
             {collections.map((post) => (
-              <Link key={post.id} href={getTaskHref(resolveTaskKey(post.task, 'sbm'), post.slug)} className={`rounded-[1.8rem] p-6 ${tone.panel}`}>
+              <Link key={post.id} href={getTaskHref('sbm', post.slug)} className={`rounded-[1.8rem] p-6 ${tone.panel}`}>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Collection</p>
                 <h3 className="mt-3 text-2xl font-semibold">{post.title}</h3>
                 <p className={`mt-3 text-sm leading-8 ${tone.muted}`}>{post.summary || 'A calmer bookmark surface with room for context and grouping.'}</p>

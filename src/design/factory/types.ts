@@ -1,10 +1,10 @@
-export type BrandPackKey = 'editorial-luxe' | 'directory-clean' | 'studio-dark' | 'market-utility'
+export type BrandPackKey = 'editorial-luxe' | 'directory-clean' | 'studio-dark' | 'market-utility' | 'aurora-mystic'
 export type NavbarLayoutKey = 'editorial-bar' | 'compact-bar' | 'floating-bar' | 'utility-bar'
 export type FooterLayoutKey = 'editorial-footer' | 'columns-footer' | 'dense-footer' | 'minimal-footer'
 export type HomeLayoutKey = 'article-home' | 'listing-home' | 'image-profile-home' | 'classified-home'
 export type MotionPackKey = 'editorial-soft' | 'minimal' | 'studio-stagger' | 'utility-snappy'
 
-export type TaskKey = 'listing' | 'classified' | 'article' | 'image' | 'profile' | 'sbm'
+export type TaskKey = 'listing' | 'classified' | 'article' | 'image' | 'profile' | 'sbm' | 'pdf'
 
 export type TaskLayoutKey =
   | 'listing-directory'
@@ -19,6 +19,7 @@ export type TaskLayoutKey =
   | 'profile-business'
   | 'sbm-curation'
   | 'sbm-library'
+  | 'pdf-library'
 
 export type BrandPack = {
   key: BrandPackKey
