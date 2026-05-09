@@ -8,26 +8,7 @@ import { SITE_CONFIG } from '@/lib/site-config'
 
 export const CONTACT_PAGE_OVERRIDE_ENABLED = true
 
-const CHANNELS = [
-  {
-    icon: Mail,
-    title: 'Email Support',
-    value: `hello@${SITE_CONFIG.domain}`,
-    note: 'We reply within one business day',
-  },
-  {
-    icon: MessageSquare,
-    title: 'Publishing Help',
-    value: `publish@${SITE_CONFIG.domain}`,
-    note: 'For uploads, profiles, and library questions',
-  },
-  {
-    icon: Phone,
-    title: 'Partnerships',
-    value: `partners@${SITE_CONFIG.domain}`,
-    note: 'Collaborations and organization accounts',
-  },
-]
+const CHANNELS: Array<{ icon: any; title: string; value: string; note: string }> = []
 
 export function ContactPageOverride() {
   const [name, setName] = useState('')
@@ -58,10 +39,10 @@ export function ContactPageOverride() {
               We&apos;re here to help
             </span>
             <h1 className="mx-auto mt-6 max-w-3xl text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
-              Let&apos;s <span className="text-[#2563eb]">talk</span> about your next PDF or profile.
+              Let&apos;s <span className="text-[#2563eb]">talk</span> about your next PDF.
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600">
-              Whether you&apos;re publishing a new document, setting up a creator profile, or partnering with us — drop a message and we&apos;ll get back quickly.
+              Whether you&apos;re publishing a new document or have questions about the library — drop a message and we&apos;ll get back quickly.
             </p>
           </div>
         </section>
@@ -86,21 +67,6 @@ export function ContactPageOverride() {
                 )
               })}
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white text-[#2563eb]">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-950">Operating Online</h3>
-                    <p className="mt-1 text-sm text-slate-600">Remote-first team supporting publishers worldwide.</p>
-                    <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
-                      <Clock className="h-3.5 w-3.5" />
-                      Mon – Fri · 9:00 – 18:00 (your local time)
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.06)] lg:p-10">
@@ -173,7 +139,7 @@ export function ContactPageOverride() {
           <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-14 text-center sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-white sm:text-4xl">Prefer to explore first?</h2>
             <p className="max-w-2xl text-base text-blue-100">
-              Browse our PDF Library or discover authors and creators on {SITE_CONFIG.name}.
+              Browse our PDF Library on {SITE_CONFIG.name}.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <a
@@ -182,12 +148,6 @@ export function ContactPageOverride() {
               >
                 Browse Library
                 <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="/profile"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
-              >
-                Explore Profiles
               </a>
             </div>
           </div>

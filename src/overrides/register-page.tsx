@@ -33,7 +33,7 @@ export function RegisterPageOverride() {
       await signup(name.trim(), email.trim(), password)
       setSuccess(true)
       setTimeout(() => {
-        router.push('/profile')
+        router.push('/')
       }, 900)
     } catch (err) {
       setError('Unable to create account. Please try again.')

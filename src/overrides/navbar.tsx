@@ -13,8 +13,6 @@ export const NAVBAR_OVERRIDE_ENABLED = true
 const NAV_LINKS = [
   { name: 'About Us', href: '/about' },
   { name: 'PDF Library', href: '/pdf' },
-  { name: 'Profiles', href: '/profile' },
-  { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '/contact' },
 ]
 
@@ -66,12 +64,6 @@ export function NavbarOverride() {
 
           {isAuthenticated ? (
             <div className="hidden items-center gap-3 md:flex">
-              <Link
-                href="/profile"
-                className="text-sm font-medium text-slate-700 hover:text-[#2563eb]"
-              >
-                Hi, {user?.name || 'User'}
-              </Link>
               <button
                 onClick={logout}
                 className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
