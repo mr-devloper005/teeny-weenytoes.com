@@ -13,14 +13,14 @@ const FEATURES = [
     body: 'Upload, organize, and share high-quality PDFs with clean metadata, tags, and instant discovery.',
   },
   {
-    icon: Users,
-    title: 'Verified Profiles',
-    body: 'Authors, researchers, and creators get dedicated profiles to showcase their published work.',
-  },
-  {
     icon: Download,
     title: 'Easy Downloads',
     body: 'One-click downloads with tracking, previews, and mobile-friendly reading across all devices.',
+  },
+  {
+    icon: Shield,
+    title: 'Secure Storage',
+    body: 'Your documents are safely stored and backed up with enterprise-grade security.',
   },
 ]
 
@@ -56,10 +56,10 @@ export async function HomePageOverride() {
                 <h1 className="mt-6 text-5xl font-bold leading-[1.05] tracking-tight text-slate-950 sm:text-6xl">
                   Documents by <span className="text-[#2563eb]">Design.</span>
                   <br />
-                  <span className="text-slate-400">Profiles by Purpose.</span>
+                  <span className="text-slate-400">Discovery by Default.</span>
                 </h1>
                 <p className="mt-6 max-w-xl text-base leading-8 text-slate-600">
-                  We build a scalable PDF library and profile platform tailored to how authors, readers, and organizations publish, discover, and share structured knowledge.
+                  We build a scalable PDF library platform tailored to how authors, readers, and organizations publish, discover, and share structured knowledge.
                 </p>
 
                 <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -69,12 +69,6 @@ export async function HomePageOverride() {
                   >
                     Browse PDF Library
                     <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="/profile"
-                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50"
-                  >
-                    Explore Profiles
                   </Link>
                 </div>
 
@@ -107,15 +101,6 @@ export async function HomePageOverride() {
                   </div>
                 </div>
 
-                <div className="absolute -right-4 bottom-10 hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 pr-5 shadow-[0_14px_40px_rgba(15,23,42,0.12)] sm:flex">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2563eb] text-white">
-                    <Users className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-950">Creator Profiles</p>
-                    <p className="text-xs text-slate-500">Verified &amp; structured</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -127,7 +112,7 @@ export async function HomePageOverride() {
               Why People Choose {SITE_CONFIG.name}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate-600">
-              We deliver document &amp; profile solutions designed to scale with your library and audience.
+              We deliver document solutions designed to scale with your library and audience.
             </p>
           </div>
 
@@ -158,7 +143,7 @@ export async function HomePageOverride() {
                   Where Documents Meet <span className="text-[#2563eb]">Discovery.</span>
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-                  Founded to make publishing simple, {SITE_CONFIG.name} partners with authors and organizations to build a scalable PDF library and profile experience. We combine clean structure, thoughtful design, and fast discovery to solve real publishing challenges.
+                  Founded to make publishing simple, {SITE_CONFIG.name} partners with authors and organizations to build a scalable PDF library experience. We combine clean structure, thoughtful design, and fast discovery to solve real publishing challenges.
                 </p>
                 <Link
                   href="/about"
@@ -253,7 +238,7 @@ export async function HomePageOverride() {
         <section className="bg-[#2563eb]">
           <div className="mx-auto max-w-5xl px-4 py-16 text-center sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to publish your next PDF or build your profile?
+              Ready to publish your next PDF?
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-blue-100">
               Join a growing community of authors and readers. Get started in minutes — no clutter, no distractions.

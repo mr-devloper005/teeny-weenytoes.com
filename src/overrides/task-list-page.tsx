@@ -44,7 +44,9 @@ function getDate(post: SitePost) {
   const raw = post.publishedAt || post.createdAt
   if (!raw) return ''
   try {
-    return new Date(raw).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    const date = new Date(raw)
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
   } catch {
     return ''
   }
@@ -158,7 +160,7 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-slate-950">
-                      {isPdf ? 'Instant Downloads' : 'Verified Profiles'}
+                      {isPdf ? 'Instant Downloads' : 'Verified Content'}
                     </p>
                     <p className="text-xs text-slate-500">{isPdf ? 'No signup needed' : 'Trusted authors'}</p>
                   </div>
@@ -274,7 +276,7 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
                       {isPdf ? 'All Documents' : 'All Creators'}
                     </p>
                     <h2 className="mt-2 text-3xl font-bold tracking-tight">
-                      {isPdf ? 'Browse the library' : 'Explore profiles'}
+                      {isPdf ? 'Browse the library' : 'Explore content'}
                     </h2>
                   </div>
                   <p className="text-sm text-slate-500">
@@ -323,7 +325,7 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
                 href={isPdf ? '/profile' : '/pdf'}
                 className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
-                {isPdf ? 'Browse Profiles' : 'Browse Library'}
+                {isPdf ? 'Browse Library' : 'Browse Library'}
               </Link>
             </div>
           </div>
@@ -369,12 +371,6 @@ function FeaturedPdfCard({ post, baseRoute }: { post: SitePost; baseRoute: strin
             <span className="inline-flex items-center gap-1.5">
               <User className="h-4 w-4" />
               {post.authorName}
-            </span>
-          ) : null}
-          {date ? (
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" />
-              {date}
             </span>
           ) : null}
         </div>
@@ -430,17 +426,11 @@ function PdfCard({ post, baseRoute }: { post: SitePost; baseRoute: string }) {
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{post.summary}</p>
         ) : null}
         <div className="mt-auto pt-4">
-          <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs text-slate-500">
+          <div className="flex items-center border-t border-slate-100 pt-4 text-xs text-slate-500">
             <span className="inline-flex items-center gap-1.5">
               <User className="h-3.5 w-3.5" />
               {post.authorName || 'Anonymous'}
             </span>
-            {date ? (
-              <span className="inline-flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5" />
-                {date}
-              </span>
-            ) : null}
           </div>
         </div>
       </div>
