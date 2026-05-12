@@ -61,12 +61,6 @@ export default function AboutPage() {
                     Get in Touch
                     <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <Link
-                    href="/team"
-                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-50"
-                  >
-                    Meet the Team
-                  </Link>
                 </div>
               </div>
               <div className="relative">

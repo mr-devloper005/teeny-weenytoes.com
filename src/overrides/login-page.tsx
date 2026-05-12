@@ -32,7 +32,7 @@ export function LoginPageOverride() {
       await login(email.trim(), password)
       setSuccess(true)
       setTimeout(() => {
-        router.push('/profile')
+        router.push('/')
       }, 900)
     } catch (err) {
       setError('Unable to sign in. Please try again.')
